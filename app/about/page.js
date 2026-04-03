@@ -233,8 +233,8 @@ const handleSubmit = async (e) => {
         title: "AI Resume Screening System",
         desc: "Automates resume evaluation using AI and intelligent skill matching.",
         icon: <FaRobot />,
-        image: "/projects/ai-resume.png",
-        github: "https://github.com/yourusername/resume-ai",
+        image: "/projects/image 1.png",
+        github: "https://github.com/920Rajitha/CVResumeScreeningApp",
       },
       {
         title: "AI Accident Detection App",
@@ -247,8 +247,8 @@ const handleSubmit = async (e) => {
         title: "DevTip Blog Platform",
         desc: "Modern blog system with admin dashboard built using Next.js.",
         icon: <FaBlog />,
-        image: "/projects/devtip.png",
-        github: "https://github.com/yourusername/devtip",
+        image: "/projects/download.png",
+        github: "https://github.com/920Rajitha/dev-tips-hub",
       },
     ].map((p, i) => (
       <div
