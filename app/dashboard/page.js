@@ -7,11 +7,23 @@ export default function Dashboard() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const loadPosts = async () => {
-    const res = await fetch("/api/posts", { cache: "no-store" }); // ✅ IMPORTANT
-    const data = await res.json();
+ const loadPosts = async () => {
+  try {
+    const res = await fetch("/api/posts", {
+      cache: "no-store",
+    });
+
+    const text = await res.text(); // 👈 important
+
+    const data = text ? JSON.parse(text) : [];
+
     setPosts(data);
-  };
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    setPosts([]); // fallback
+  }
+};
 
   useEffect(() => {
     loadPosts();
