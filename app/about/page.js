@@ -101,7 +101,7 @@ const handleSubmit = async (e) => {
     </h1>
 
     <p className="text-blue-400 text-sm mt-1">
-      Full Stack Developer | AI Engineer
+      Full Stack Developer | IT Support | App Developer
     </p>
 
     <p className="text-gray-400 text-sm mt-3 max-w-xl leading-relaxed">
