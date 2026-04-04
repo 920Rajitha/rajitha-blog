@@ -477,16 +477,19 @@ const handleSubmit = async (e) => {
     </a>
 
     {/* INSTAGRAM */}
-    <a
-      href="https://www.instagram.com/ra_j_i_t_h_a?igsh=MjFsN3F1Mmdicjcx"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group p-2 rounded-lg bg-white/5 border border-white/10 
-      hover:bg-pink-500/20 hover:border-pink-500/30 
-      transition-all duration-300"
-    >
-      <FaInstagram className="text-gray-400 group-hover:text-pink-400 text-lg transition" />
-    </a>
+     <a
+    href="https://www.instagram.com/ra_j_i_t_h_a?igsh=MjFsN3F1Mmdicjcx"
+    target="_blank"
+    className="group relative flex items-center justify-center 
+    w-10 h-10 rounded-lg bg-white/5 border border-white/10 
+    hover:bg-pink-500/20 transition-all duration-300 hover:scale-110"
+  >
+    <FaInstagram className="text-gray-400 group-hover:text-pink-400" />
+    <span className="absolute left-16 text-xs bg-[#0f172a] px-2 py-1 rounded 
+    opacity-0 group-hover:opacity-100 transition">
+      Instagram
+    </span>
+  </a>
 
   </div>
 
