@@ -3,7 +3,7 @@
 "use client";
 
 import { FaEnvelope, FaPhoneAlt, FaGlobe } from "react-icons/fa";
-import { FaGlobe, FaBlog, FaGithub } from "react-icons/fa";
+import { FaGithub, FaBlog } from "react-icons/fa";
 import { FaReceipt } from "react-icons/fa";
 import { FaCode, FaServer, FaDatabase, FaTools } from "react-icons/fa";
 import { FaLinkedin, FaFacebook, FaWhatsapp, FaInstagram } from "react-icons/fa";
@@ -230,7 +230,6 @@ const handleSubmit = async (e) => {
   </h2>
 
   <div className="grid md:grid-cols-3 gap-6">
-
     {[
       {
         title: "AI Resume Screening System",
