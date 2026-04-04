@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiUser, FiFileText } from "react-icons/fi";
+import { FaLinkedin, FaFacebook, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -27,47 +28,110 @@ export default function Navbar() {
           R
         </div>
 
-        {/* NAV ITEMS */}
-        <div className="flex flex-col gap-8">
-          {navItems.map((item, index) => {
-            const isActive = pathname === item.path;
+       {/* NAV ITEMS */}
+<div className="flex flex-col gap-8 flex-1">
 
-            return (
-              <Link key={index} href={item.path} className="relative group">
+  {navItems.map((item, index) => {
+    const isActive = pathname === item.path;
 
-                {/* ACTIVE LINE */}
-                {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 
-                  w-1 h-6 bg-blue-500 rounded-r"></div>
-                )}
+    return (
+      <Link key={index} href={item.path} className="relative group">
 
-                <div
-                  className={`
-                  flex items-center justify-center 
-                  w-12 h-12 rounded-xl text-xl 
-                  transition-all duration-300
-                  ${
-                    isActive
-                      ? "text-white bg-blue-500/10 shadow-lg"
-                      : "text-gray-500 hover:text-white hover:bg-white/5"
-                  }
-                  `}
-                >
-                  {item.icon}
-                </div>
+        {/* ACTIVE LINE */}
+        {isActive && (
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 
+          w-1 h-6 bg-blue-500 rounded-r"></div>
+        )}
 
-                {/* TOOLTIP */}
-                <span className="absolute left-20 top-1/2 -translate-y-1/2 
-                bg-[#0f172a] text-white text-xs px-3 py-1 rounded-lg 
-                opacity-0 group-hover:opacity-100 
-                transition pointer-events-none">
-                  {item.name}
-                </span>
-
-              </Link>
-            );
-          })}
+        <div
+          className={`
+          flex items-center justify-center 
+          w-12 h-12 rounded-xl text-xl 
+          transition-all duration-300
+          ${
+            isActive
+              ? "text-white bg-blue-500/10 shadow-lg"
+              : "text-gray-500 hover:text-white hover:bg-white/5"
+          }
+          `}
+        >
+          {item.icon}
         </div>
+
+        {/* TOOLTIP */}
+        <span className="absolute left-20 top-1/2 -translate-y-1/2 
+        bg-[#0f172a] text-white text-xs px-3 py-1 rounded-lg 
+        opacity-0 group-hover:opacity-100 
+        transition pointer-events-none">
+          {item.name}
+        </span>
+
+      </Link>
+    );
+  })}
+
+</div>
+
+{/* ================= SOCIAL ICONS ================= */}
+<div className="flex flex-col items-center gap-4 mt-6 mb-10">
+
+  <a
+    href="https://linkedin.com/in/rajitha-lakshan-4b269b351"
+    target="_blank"
+    className="group relative flex items-center justify-center 
+    w-10 h-10 rounded-lg bg-white/5 border border-white/10 
+    hover:bg-blue-500/20 transition-all duration-300 hover:scale-110"
+  >
+    <FaLinkedin className="text-gray-400 group-hover:text-blue-400" />
+    <span className="absolute left-16 text-xs bg-[#0f172a] px-2 py-1 rounded 
+    opacity-0 group-hover:opacity-100 transition">
+      LinkedIn
+    </span>
+  </a>
+
+  <a
+    href="https://www.facebook.com/share/1DjDYyx4Dm/"
+    target="_blank"
+    className="group relative flex items-center justify-center 
+    w-10 h-10 rounded-lg bg-white/5 border border-white/10 
+    hover:bg-blue-600/20 transition-all duration-300 hover:scale-110"
+  >
+    <FaFacebook className="text-gray-400 group-hover:text-blue-500" />
+    <span className="absolute left-16 text-xs bg-[#0f172a] px-2 py-1 rounded 
+    opacity-0 group-hover:opacity-100 transition">
+      Facebook
+    </span>
+  </a>
+
+  <a
+    href="https://wa.me/94750979908"
+    target="_blank"
+    className="group relative flex items-center justify-center 
+    w-10 h-10 rounded-lg bg-white/5 border border-white/10 
+    hover:bg-green-500/20 transition-all duration-300 hover:scale-110"
+  >
+    <FaWhatsapp className="text-gray-400 group-hover:text-green-400" />
+    <span className="absolute left-16 text-xs bg-[#0f172a] px-2 py-1 rounded 
+    opacity-0 group-hover:opacity-100 transition">
+      WhatsApp
+    </span>
+  </a>
+
+  <a
+    href="https://www.instagram.com/ra_j_i_t_h_a?igsh=MjFsN3F1Mmdicjcx"
+    target="_blank"
+    className="group relative flex items-center justify-center 
+    w-10 h-10 rounded-lg bg-white/5 border border-white/10 
+    hover:bg-pink-500/20 transition-all duration-300 hover:scale-110"
+  >
+    <FaInstagram className="text-gray-400 group-hover:text-pink-400" />
+    <span className="absolute left-16 text-xs bg-[#0f172a] px-2 py-1 rounded 
+    opacity-0 group-hover:opacity-100 transition">
+      Instagram
+    </span>
+  </a>
+
+</div>
 
         <div className="mt-auto text-xs text-gray-500">
           © R
@@ -75,41 +139,84 @@ export default function Navbar() {
       </div>
 
       {/* ================= MOBILE BOTTOM NAV ================= */}
-      <div className="md:hidden fixed bottom-0 left-0 w-full 
-      bg-[#020617]/95 backdrop-blur-xl 
-      border-t border-white/10 
-      flex justify-around items-center py-3 z-50">
+<div className="md:hidden fixed bottom-0 left-0 w-full 
+bg-[#020617]/95 backdrop-blur-xl 
+border-t border-white/10 
+flex flex-col items-center py-2 z-50">
 
-        {navItems.map((item, index) => {
-          const isActive = pathname === item.path;
+  {/* NAV ITEMS */}
+  <div className="flex justify-around w-full">
 
-          return (
-            <Link key={index} href={item.path} className="flex flex-col items-center">
+    {navItems.map((item, index) => {
+      const isActive = pathname === item.path;
 
-              <div
-                className={`
-                flex items-center justify-center 
-                w-10 h-10 rounded-lg text-lg 
-                transition-all duration-300
-                ${
-                  isActive
-                    ? "text-white bg-blue-500/20"
-                    : "text-gray-400"
-                }
-                `}
-              >
-                {item.icon}
-              </div>
+      return (
+        <Link key={index} href={item.path} className="flex flex-col items-center">
 
-              <span className={`text-[10px] mt-1 
-                ${isActive ? "text-blue-400" : "text-gray-500"}`}>
-                {item.name}
-              </span>
+          <div
+            className={`
+            flex items-center justify-center 
+            w-10 h-10 rounded-lg text-lg 
+            transition-all duration-300
+            ${
+              isActive
+                ? "text-white bg-blue-500/20"
+                : "text-gray-400"
+            }
+            `}
+          >
+            {item.icon}
+          </div>
 
-            </Link>
-          );
-        })}
-      </div>
+          <span className={`text-[10px] mt-1 
+            ${isActive ? "text-blue-400" : "text-gray-500"}`}>
+            {item.name}
+          </span>
+
+        </Link>
+      );
+    })}
+
+  </div>
+
+  {/* SOCIAL ICONS */}
+  <div className="flex gap-5 mt-2">
+
+    <a
+      href="https://linkedin.com/in/yourusername"
+      target="_blank"
+      className="text-gray-400 hover:text-blue-400 transition text-lg"
+    >
+      <FaLinkedin />
+    </a>
+
+    <a
+      href="https://facebook.com/yourusername"
+      target="_blank"
+      className="text-gray-400 hover:text-blue-500 transition text-lg"
+    >
+      <FaFacebook />
+    </a>
+
+    <a
+      href="https://wa.me/94750979908"
+      target="_blank"
+      className="text-gray-400 hover:text-green-400 transition text-lg"
+    >
+      <FaWhatsapp />
+    </a>
+
+    <a
+      href="https://instagram.com/yourusername"
+      target="_blank"
+      className="text-gray-400 hover:text-pink-400 transition text-lg"
+    >
+      <FaInstagram />
+    </a>
+
+  </div>
+
+</div>
     </>
   );
 }

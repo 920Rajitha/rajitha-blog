@@ -5,6 +5,8 @@
 import { FaEnvelope, FaPhoneAlt, FaGlobe } from "react-icons/fa";
 import { FaRobot, FaMobileAlt, FaBlog, FaGithub } from "react-icons/fa";
 import { FaCode, FaServer, FaDatabase, FaTools } from "react-icons/fa";
+import { FaLinkedin, FaFacebook, FaWhatsapp, FaInstagram } from "react-icons/fa";
+
 import { useState } from "react";
 export default function About() {
 
@@ -430,12 +432,63 @@ const handleSubmit = async (e) => {
 
       </div>
 
-      {/* FOOTER */}
-      <div className="mt-8 pt-4 border-t border-white/10">
-        <p className="text-gray-400 text-xs leading-relaxed">
-          Available for internships, freelance projects, and collaborations.
-        </p>
-      </div>
+   {/* TEXT */}
+  <p className="text-gray-400 text-xs leading-relaxed mb-4">
+    Available for internships, freelance projects, and collaborations.
+  </p>
+
+  {/* SOCIAL ICONS */}
+  <div className="flex items-center gap-4">
+
+    {/* LINKEDIN */}
+    <a
+      href="https://linkedin.com/in/rajitha-lakshan-4b269b351"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group p-2 rounded-lg bg-white/5 border border-white/10 
+      hover:bg-blue-500/20 hover:border-blue-500/30 
+      transition-all duration-300"
+    >
+      <FaLinkedin className="text-gray-400 group-hover:text-blue-400 text-lg transition" />
+    </a>
+
+    {/* FACEBOOK */}
+    <a
+      href="https://www.facebook.com/share/1DjDYyx4Dm/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group p-2 rounded-lg bg-white/5 border border-white/10 
+      hover:bg-blue-600/20 hover:border-blue-600/30 
+      transition-all duration-300"
+    >
+      <FaFacebook className="text-gray-400 group-hover:text-blue-500 text-lg transition" />
+    </a>
+
+    {/* WHATSAPP */}
+    <a
+      href="https://wa.me/94750979908"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group p-2 rounded-lg bg-white/5 border border-white/10 
+      hover:bg-green-500/20 hover:border-green-500/30 
+      transition-all duration-300"
+    >
+      <FaWhatsapp className="text-gray-400 group-hover:text-green-400 text-lg transition" />
+    </a>
+
+    {/* INSTAGRAM */}
+    <a
+      href="www.instagram.com/ra_j_i_t_h_a?igsh=MjFsN3F1Mmdicjcx"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group p-2 rounded-lg bg-white/5 border border-white/10 
+      hover:bg-pink-500/20 hover:border-pink-500/30 
+      transition-all duration-300"
+    >
+      <FaInstagram className="text-gray-400 group-hover:text-pink-400 text-lg transition" />
+    </a>
+
+  </div>
 
     
 
