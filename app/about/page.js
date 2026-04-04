@@ -159,13 +159,13 @@ const handleSubmit = async (e) => {
       },
       {
         title: "Database",
-        items: ["SQL Server", "MySQL", "Firebase, MongoDB, PhpMyAdmin, postgreSQL"],
+        items: ["SQL Server", "MySQL", "Firebase", "MongoDB", "PhpMyAdmin", "postgreSQL"],
         icon: <FaDatabase />,
         color: "purple",
       },
       {
         title: "Tools",
-        items: ["Git", "VS Code", "Figma", "Android Studio,Visual Studio"],
+        items: ["Git", "VS Code", "Figma", "Android Studio", "Visual Studio"],
         icon: <FaTools />,
         color: "orange",
       },
