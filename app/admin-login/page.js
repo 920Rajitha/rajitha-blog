@@ -12,7 +12,7 @@ export default function AdminLogin() {
         onClick={login}
         className="bg-white text-black px-6 py-3 rounded"
       >
-        Admin Login
+        Login as Admin
       </button>
     </div>
   );
