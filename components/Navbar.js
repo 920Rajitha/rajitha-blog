@@ -138,83 +138,60 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ================= MOBILE BOTTOM NAV ================= */}
-<div className="md:hidden fixed bottom-0 left-0 w-full 
-bg-[#020617]/95 backdrop-blur-xl 
-border-t border-white/10 
-flex flex-col items-center py-2 z-50">
+     {/* ================= MODERN MOBILE NAV ================= */}
+<div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 
+w-[90%] max-w-sm 
+bg-[#020617]/90 backdrop-blur-xl 
+border border-white/10 
+rounded-2xl px-4 py-3 
+flex justify-between items-center 
+shadow-2xl z-50">
 
-  {/* NAV ITEMS */}
-  <div className="flex justify-around w-full">
+  {navItems.map((item, index) => {
+    const isActive = pathname === item.path;
 
-    {navItems.map((item, index) => {
-      const isActive = pathname === item.path;
+    return (
+      <Link key={index} href={item.path} className="flex flex-col items-center relative">
 
-      return (
-        <Link key={index} href={item.path} className="flex flex-col items-center">
+        {/* ACTIVE BACKGROUND */}
+        {isActive && (
+          <div className="absolute inset-0 rounded-xl 
+          bg-blue-500/10 blur-md"></div>
+        )}
 
-          <div
-            className={`
-            flex items-center justify-center 
-            w-10 h-10 rounded-lg text-lg 
-            transition-all duration-300
-            ${
-              isActive
-                ? "text-white bg-blue-500/20"
-                : "text-gray-400"
-            }
-            `}
-          >
-            {item.icon}
-          </div>
+        {/* ICON */}
+        <div
+          className={`
+          relative flex items-center justify-center 
+          w-11 h-11 rounded-xl text-lg 
+          transition-all duration-300
+          ${
+            isActive
+              ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+              : "text-gray-400 hover:text-white"
+          }
+          `}
+        >
+          {item.icon}
+        </div>
 
-          <span className={`text-[10px] mt-1 
-            ${isActive ? "text-blue-400" : "text-gray-500"}`}>
-            {item.name}
-          </span>
+        {/* LABEL */}
+        <span
+          className={`
+          text-[10px] mt-1 transition-all
+          ${
+            isActive
+              ? "text-blue-400"
+              : "text-gray-500"
+          }
+          `}
+        >
+          {item.name}
+        </span>
 
-        </Link>
-      );
-    })}
-
-  </div>
-
-  {/* SOCIAL ICONS */}
-  <div className="flex gap-5 mt-2">
-
-    <a
-      href="https://linkedin.com/in/yourusername"
-      target="_blank"
-      className="text-gray-400 hover:text-blue-400 transition text-lg"
-    >
-      <FaLinkedin />
-    </a>
-
-    <a
-      href="https://facebook.com/yourusername"
-      target="_blank"
-      className="text-gray-400 hover:text-blue-500 transition text-lg"
-    >
-      <FaFacebook />
-    </a>
-
-    <a
-      href="https://wa.me/94750979908"
-      target="_blank"
-      className="text-gray-400 hover:text-green-400 transition text-lg"
-    >
-      <FaWhatsapp />
-    </a>
-
-    <a
-      href="https://instagram.com/yourusername"
-      target="_blank"
-      className="text-gray-400 hover:text-pink-400 transition text-lg"
-    >
-      <FaInstagram />
-    </a>
-
-  </div>
+      </Link>
+    );
+  })}
 
 </div>
     </>
