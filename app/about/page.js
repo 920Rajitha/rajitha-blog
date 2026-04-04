@@ -266,12 +266,9 @@ const handleSubmit = async (e) => {
         title: "Firewood Billing System",
         desc: "A .NET-based billing application integrated with SQL Server to calculate firewood costs, generate invoices, and print detailed bills with an easy-to-use interface.",
         icon: <FaReceipt />,
-        image: "/projects/tuition_project2.png",
+        image: "/projects/print.png",
         
       },
-
-
-
 
 
     ].map((p, i) => (
