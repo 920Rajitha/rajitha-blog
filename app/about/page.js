@@ -478,7 +478,7 @@ const handleSubmit = async (e) => {
 
     {/* INSTAGRAM */}
     <a
-      href="www.instagram.com/ra_j_i_t_h_a?igsh=MjFsN3F1Mmdicjcx"
+      href="https://www.instagram.com/ra_j_i_t_h_a?igsh=MjFsN3F1Mmdicjcx"
       target="_blank"
       rel="noopener noreferrer"
       className="group p-2 rounded-lg bg-white/5 border border-white/10 
