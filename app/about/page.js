@@ -253,7 +253,6 @@ const handleSubmit = async (e) => {
         image: "/projects/download.png",
         github: "https://github.com/920Rajitha/dev-tips-hub",
       },
-
       {
         title: "Tuition Fee Management System",
         desc: "A .NET-based tuition management system integrated with SQL Server for efficient student fee tracking, payment updates, and real-time dashboard insights.",
@@ -261,7 +260,6 @@ const handleSubmit = async (e) => {
         image: "/projects/tuition_project2.png",
         
       },
-
       {
         title: "Firewood Billing System",
         desc: "A .NET-based billing application integrated with SQL Server to calculate firewood costs, generate invoices, and print detailed bills with an easy-to-use interface.",
@@ -269,8 +267,6 @@ const handleSubmit = async (e) => {
         image: "/projects/print.png",
         
       },
-
-
     ].map((p, i) => (
       <div
         key={i}
