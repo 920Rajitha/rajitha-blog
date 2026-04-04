@@ -1,11 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Dashboard() {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+
+const router = useRouter();
+
+useEffect(() => {
+  const isAdmin = localStorage.getItem("admin");
+
+  if (!isAdmin) {
+    router.push("/login");
+  }
+}, []);
 
  const loadPosts = async () => {
   try {
@@ -116,6 +129,16 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
+
+      <button
+  onClick={() => {
+    localStorage.removeItem("admin");
+    window.location.href = "/login";
+  }}
+  className="bg-red-500 px-3 py-1 rounded mb-4"
+>
+  Logout
+</button>
 
     </div>
   );
