@@ -3,7 +3,8 @@
 "use client";
 
 import { FaEnvelope, FaPhoneAlt, FaGlobe } from "react-icons/fa";
-import { FaRobot, FaMobileAlt, FaBlog, FaGithub } from "react-icons/fa";
+import { FaGlobe, FaBlog, FaGithub } from "react-icons/fa";
+import { FaReceipt } from "react-icons/fa";
 import { FaCode, FaServer, FaDatabase, FaTools } from "react-icons/fa";
 import { FaLinkedin, FaFacebook, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
@@ -158,13 +159,13 @@ const handleSubmit = async (e) => {
       },
       {
         title: "Database",
-        items: ["SQL Server", "MySQL", "Firebase"],
+        items: ["SQL Server", "MySQL", "Firebase, MongoDB, PhpMyAdmin, postgreSQL"],
         icon: <FaDatabase />,
         color: "purple",
       },
       {
         title: "Tools",
-        items: ["Git", "VS Code", "Figma", "Android Studio"],
+        items: ["Git", "VS Code", "Figma", "Android Studio,Visual Studio"],
         icon: <FaTools />,
         color: "orange",
       },
@@ -234,24 +235,45 @@ const handleSubmit = async (e) => {
       {
         title: "AI Resume Screening System",
         desc: "Automates resume evaluation using AI and intelligent skill matching.",
-        icon: <FaRobot />,
+        icon: <FaReceipt />,
         image: "/projects/image 1.png",
         github: "https://github.com/920Rajitha/CVResumeScreeningApp",
       },
       {
-        title: "AI Accident Detection App",
-        desc: "Mobile application using AI models to detect accidents and send alerts.",
-        icon: <FaMobileAlt />,
-        image: "/projects/accident-app.png",
-        github: "https://github.com/yourusername/accident-ai",
+        title: "Rajitha Portfolio Web",
+        desc: "Modern and responsive personal portfolio website built using React.js, Node.js, and Tailwind CSS. Showcases my projects, skills, and experience with a clean UI, smooth navigation, and interactive user experience.",
+        icon: <FaGlobe />,
+        image: "/projects/portfolio.png",
+        github: "https://github.com/920Rajitha/portfolio",
       },
       {
         title: "DevTip Blog Platform",
-        desc: "Modern blog system with admin dashboard built using Next.js.",
+        desc: "Modern blog system with admin dashboard built using Php/PhpMyAdmin.",
         icon: <FaBlog />,
         image: "/projects/download.png",
         github: "https://github.com/920Rajitha/dev-tips-hub",
       },
+
+      {
+        title: "Tuition Fee Management System",
+        desc: "A .NET-based tuition management system integrated with SQL Server for efficient student fee tracking, payment updates, and real-time dashboard insights.",
+        icon: <FaReceipt />,
+        image: "/projects/tuition_project2.png",
+        
+      },
+
+      {
+        title: "Firewood Billing System",
+        desc: "A .NET-based billing application integrated with SQL Server to calculate firewood costs, generate invoices, and print detailed bills with an easy-to-use interface.",
+        icon: <FaReceipt />,
+        image: "/projects/tuition_project2.png",
+        
+      },
+
+
+
+
+
     ].map((p, i) => (
       <div
         key={i}
