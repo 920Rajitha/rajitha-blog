@@ -271,6 +271,7 @@ const handleSubmit = async (e) => {
         desc: "Modern full-stack portfolio & blog platform with admin dashboard, built using Next.js, Prisma, and PostgreSQL. Showcases projects, skills, and experience with a clean UI, smooth navigation, and interactive user experience.",
         icon: <FaBlog />,
         image: "/projects/blog.png",
+        github: "https://github.com/920Rajitha/rajitha-blog",
         
       },
       {
@@ -278,6 +279,7 @@ const handleSubmit = async (e) => {
         desc: "Developed a Flutter mobile app for anthurium plant sales with real-time updates powered by Firebase. Features include categorized browsing, detailed plant views, WhatsApp-based ordering, and an admin panel for live data management.",
         icon: <FaBlog />,
         image: "/projects/anthurim.jpeg",
+        github: "https://github.com/920Rajitha/anthurium-shop-app",
         
       },
     ].map((p, i) => (
