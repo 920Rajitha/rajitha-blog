@@ -157,7 +157,7 @@ export default function Navbar() {
               ✕
             </button>
 
-            <iframe src="/resume.pdf" className="w-full h-full"></iframe>
+            <iframe src="/Rajitha NEW CV.pdf" className="w-full h-full"></iframe>
           </div>
         </div>
       )}
