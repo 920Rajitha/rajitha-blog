@@ -107,49 +107,55 @@ export default function Navbar() {
       </div>
 
       {/* ================= MOBILE NAV ================= */}
-      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 
+     <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 
 w-[90%] max-w-sm 
 bg-[#020617]/90 backdrop-blur-xl 
 border border-white/10 
-rounded-2xl px-6 py-3 
+rounded-2xl px-4 py-3 
 flex justify-between items-center 
 shadow-2xl z-50">
 
-  {/* ABOUT */}
-  <Link href="/about" className="flex flex-col items-center text-gray-400 hover:text-white">
-    <div className="w-10 h-10 flex items-center justify-center rounded-lg">
-      <FiUser />
-    </div>
-    <span className="text-[10px] mt-1">About</span>
-  </Link>
+  {[
+    { name: "About", path: "/about", icon: <FiUser /> },
+    { name: "Resume", path: "/resume", icon: <FiFileText /> }, // 👈 NEW
+    { name: "Blog", path: "/", icon: <FiFileText /> },
+  ].map((item, index) => {
+    const isActive = pathname === item.path;
 
-  {/* RESUME (CENTER BUTTON 🔥) */}
-  <Link href="/resume" className="relative -mt-10">
+    return (
+      <Link key={index} href={item.path} className="flex flex-col items-center relative">
 
-    {/* GLOW */}
-    <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl"></div>
+        {/* ACTIVE BG */}
+        {isActive && (
+          <div className="absolute inset-0 rounded-xl bg-blue-500/10 blur-md"></div>
+        )}
 
-    <div className="relative w-14 h-14 flex items-center justify-center 
-    rounded-full bg-gradient-to-br from-blue-500 to-purple-500 
-    text-white shadow-xl border border-white/20 
-    hover:scale-110 transition">
+        {/* ICON */}
+        <div
+          className={`
+          relative flex items-center justify-center 
+          w-11 h-11 rounded-xl text-lg 
+          transition-all duration-300
+          ${
+            isActive
+              ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+              : "text-gray-400"
+          }
+          `}
+        >
+          {item.icon}
+        </div>
 
-      📄
-    </div>
+        {/* LABEL */}
+        <span className={`text-[10px] mt-1 ${
+          isActive ? "text-blue-400" : "text-gray-500"
+        }`}>
+          {item.name}
+        </span>
 
-    <span className="block text-center text-[10px] mt-1 text-blue-400">
-      Resume
-    </span>
-
-  </Link>
-
-  {/* BLOG */}
-  <Link href="/" className="flex flex-col items-center text-gray-400 hover:text-white">
-    <div className="w-10 h-10 flex items-center justify-center rounded-lg">
-      <FiFileText />
-    </div>
-    <span className="text-[10px] mt-1">Blog</span>
-  </Link>
+      </Link>
+    );
+  })}
 
 </div>
 
