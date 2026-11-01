@@ -1,6 +1,5 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import ThemeToggle from "@/components/ThemeToggle";
 import Footer from "@/components/Footer";
 import NavigationLoader from "@/components/NavigationLoader";
 
@@ -39,7 +38,7 @@ export default function RootLayout({ children }) {
           <Footer />
         </div>
 
-        <ThemeToggle />
+        
       </body>
     </html>
   );
