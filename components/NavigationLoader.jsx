@@ -53,7 +53,7 @@ export default function NavigationLoader() {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => {
         setLoading(false);
-      }, 900000);
+      }, 20000);
     };
 
     document.addEventListener("click", handleNavigation, true);
