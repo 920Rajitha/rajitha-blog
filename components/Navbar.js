@@ -350,7 +350,7 @@ export default function Navbar() {
           }`}
         >
           <a
-            href="https://linkedin.com/in/rajitha-lakshan-4b269b351"
+            href="https://linkedin.com/in/rajitha-jayasundara-750b9a41b"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
