@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import DOMPurify from "isomorphic-dompurify";
+import CommentSection from "@/components/CommentSection";
 
 const categories = [
   "All Posts",
@@ -56,30 +57,31 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All Posts");
   const [loading, setLoading] = useState(true);
+  const [likingPost, setLikingPost] = useState(null);
 
   // Load Posts
-  const loadPosts = async () => {
-    try {
-      setLoading(true);
+  const loadPosts = async (showLoading = true) => {
+  try {
+    if (showLoading) setLoading(true);
 
-      const res = await fetch("/api/posts", {
-        cache: "no-store",
-      });
+    const res = await fetch("/api/posts", {
+      cache: "no-store",
+    });
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-
-      const data = await res.json();
-      setPosts(Array.isArray(data) ? data : []);
-
-    } catch (err) {
-      console.error("Fetch error:", err);
-      setPosts([]);
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      throw new Error("Failed to fetch posts");
     }
-  };
+
+    const data = await res.json();
+    setPosts(Array.isArray(data) ? data : []);
+
+  } catch (err) {
+    console.error("Fetch error:", err);
+    setPosts([]);
+  } finally {
+    if (showLoading) setLoading(false);
+  }
+};
 
   useEffect(() => {
     loadPosts();
@@ -109,9 +111,11 @@ export default function Home() {
 
   // Like Post
   const likePost = async (postId) => {
-    if (likedPosts.includes(postId)) return;
+    if (likedPosts.includes(postId) || likingPost === postId) return;
 
     try {
+      setLikingPost(postId);
+
       const userId = getUserId();
 
       const res = await fetch("/api/like", {
@@ -129,16 +133,14 @@ export default function Home() {
       const updated = [...likedPosts, postId];
 
       setLikedPosts(updated);
+      localStorage.setItem("likedPosts", JSON.stringify(updated));
 
-      localStorage.setItem(
-        "likedPosts",
-        JSON.stringify(updated)
-      );
-
-      await loadPosts();
-
+      // Refresh likes without replacing the page with the loading screen.
+      await loadPosts(false);
     } catch (err) {
       console.error("Like error:", err);
+    } finally {
+      setLikingPost(null);
     }
   };
 
@@ -163,10 +165,21 @@ export default function Home() {
   }, [posts, search, activeCategory]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#020617] text-gray-200 flex">
+    <>
+      <div className="relative isolate min-h-screen bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#020617] text-gray-200 flex">
+      {/* SUBTLE SQUARE GRID BACKGROUND */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.035] bg-[linear-gradient(to_right,#94a3b8_1px,transparent_1px),linear-gradient(to_bottom,#94a3b8_1px,transparent_1px)] bg-[size:70px_70px]"
+      />
+      {/* SOFT BLUE AMBIENT GLOW */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 left-1/3 z-0 h-[420px] w-[620px] -translate-x-1/2 rounded-full bg-blue-500/[0.045] blur-[140px]"
+      />
 
       {/* MAIN */}
-      <div className="flex-1 min-w-0 px-5 md:px-10 py-10">
+      <div className="relative z-10 flex-1 min-w-0 px-5 md:px-10 py-10">
 
         {/* HERO */}
         <div className="bg-[#0f172a] border border-white/10 p-6 md:p-8 rounded-2xl mb-10 shadow-xl backdrop-blur-md">
@@ -360,14 +373,33 @@ export default function Home() {
 
                         <button
                           onClick={() => likePost(p.id)}
-                          disabled={liked}
-                          className={`px-4 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 transition-all duration-300 border ${
+                          disabled={liked || likingPost === p.id}
+                          aria-label={
+                            likingPost === p.id
+                              ? "Liking post"
+                              : liked
+                                ? "Post liked"
+                                : "Like post"
+                          }
+                          className={`px-4 py-1.5 rounded-full text-xs font-medium flex items-center gap-2 border transition-all duration-300 disabled:cursor-not-allowed ${
                             liked
-                              ? "bg-red-500 text-white border-red-500"
-                              : "bg-white/5 text-gray-300 border-white/10 hover:bg-red-500 hover:text-white hover:border-red-500"
+                              ? "bg-red-500/15 text-red-400 border-red-500/50"
+                              : "bg-white/5 text-gray-300 border-white/10 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/50 hover:scale-105"
                           }`}
                         >
-                          {liked ? "Liked ❤️" : "Like"}
+                          {likingPost === p.id ? (
+                            <>
+                              <span className="like-spinner" aria-hidden="true" />
+                              Liking...
+                            </>
+                          ) : (
+                            <>
+                              <span className={liked ? "heart-pop" : ""}>
+                                {liked ? "❤️" : "♡"}
+                              </span>
+                              {liked ? "Liked" : "Like"}
+                            </>
+                          )}
                         </button>
 
                       </div>
@@ -387,7 +419,7 @@ export default function Home() {
       </div>
 
       {/* RIGHT SIDEBAR */}
-      <aside className="hidden xl:block w-72 shrink-0 p-6 border-l border-white/10 bg-white/5 backdrop-blur-md">
+      <aside className="relative z-10 hidden xl:block w-72 shrink-0 p-6 border-l-0 bg-white/[0.035] backdrop-blur-md before:absolute before:left-0 before:top-0 before:h-full before:w-px before:bg-gradient-to-b before:from-white/10 before:via-white/[0.07] before:to-transparent">
 
         {/* RECENT POSTS */}
         <h3 className="text-xs text-gray-400 mb-4 font-semibold tracking-wide">
@@ -523,8 +555,54 @@ export default function Home() {
           padding: 0.15rem 0.35rem;
           border-radius: 0.25rem;
         }
+
+        /* LIKE LOADING SPINNER */
+        .like-spinner {
+          width: 12px;
+          height: 12px;
+          flex: 0 0 12px;
+          border: 2px solid rgba(255, 255, 255, 0.25);
+          border-top-color: #60a5fa;
+          border-radius: 50%;
+          display: inline-block;
+          animation: likeSpin 0.65s linear infinite;
+        }
+
+        @keyframes likeSpin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* HEART LIKE ANIMATION */
+        @keyframes heartPop {
+          0% {
+            transform: scale(1);
+          }
+          40% {
+            transform: scale(1.3);
+          }
+          70% {
+            transform: scale(0.92);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        .heart-pop {
+          display: inline-block;
+          animation: heartPop 0.4s ease-out;
+          transform-origin: center;
+        }
+
+        button {
+          -webkit-tap-highlight-color: transparent;
+        }
       `}</style>
 
-    </div>
+      </div>
+      <CommentSection />
+    </>
   );
 }

@@ -1,13 +1,19 @@
+
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET approved comments for a selected blog post
-export async function GET(req) {
+// GET: Load all approved comments or comments for one post
+export async function GET(request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const postId = Number(searchParams.get("postId"));
+    const { searchParams } = new URL(request.url);
+    const postId = searchParams.get("postId");
 
-    if (!Number.isInteger(postId) || postId <= 0) {
-      return Response.json(
+    // Validate only when postId is provided
+    if (
+      postId &&
+      (!/^\d+$/.test(postId) || Number(postId) <= 0)
+    ) {
+      return NextResponse.json(
         { error: "Invalid post ID" },
         { status: 400 }
       );
@@ -15,67 +21,60 @@ export async function GET(req) {
 
     const comments = await prisma.comment.findMany({
       where: {
-        postId,
         approved: true,
+        ...(postId ? { postId: Number(postId) } : {}),
+      },
+      orderBy: {
+        createdAt: "desc",
       },
       select: {
         id: true,
         name: true,
         content: true,
+        postId: true,
         createdAt: true,
-      },
-      orderBy: {
-        createdAt: "desc",
       },
     });
 
-    return Response.json(comments, {
+    return NextResponse.json(comments, {
       headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "Cache-Control": "no-store, max-age=0",
       },
     });
   } catch (error) {
     console.error("GET comments error:", error);
 
-    return Response.json(
+    return NextResponse.json(
       { error: "Failed to load comments" },
       { status: 500 }
     );
   }
 }
 
-// POST a new comment for admin approval
-export async function POST(req) {
+// POST: Submit a new comment for admin approval
+export async function POST(request) {
   try {
-    const body = await req.json();
+    const body = await request.json();
 
-    const { name, content, postId } = body;
+    const postId = Number(body.postId);
+    const name = String(body.name || "").trim();
+    const content = String(body.content || "").trim();
 
     if (
-      typeof name !== "string" ||
-      typeof content !== "string" ||
       !Number.isInteger(postId) ||
-      postId <= 0
+      postId <= 0 ||
+      !name ||
+      !content
     ) {
-      return Response.json(
-        { error: "Invalid comment details" },
+      return NextResponse.json(
+        { error: "Please provide a valid post, name and comment." },
         { status: 400 }
       );
     }
 
-    const cleanName = name.trim();
-    const cleanContent = content.trim();
-
-    if (!cleanName || !cleanContent) {
-      return Response.json(
-        { error: "Name and comment are required" },
-        { status: 400 }
-      );
-    }
-
-    if (cleanName.length > 60 || cleanContent.length > 2000) {
-      return Response.json(
-        { error: "Name or comment is too long" },
+    if (name.length > 60 || content.length > 2000) {
+      return NextResponse.json(
+        { error: "Name or comment is too long." },
         { status: 400 }
       );
     }
@@ -86,16 +85,16 @@ export async function POST(req) {
     });
 
     if (!post) {
-      return Response.json(
-        { error: "Blog post not found" },
+      return NextResponse.json(
+        { error: "Blog post not found." },
         { status: 404 }
       );
     }
 
     const comment = await prisma.comment.create({
       data: {
-        name: cleanName,
-        content: cleanContent,
+        name,
+        content,
         postId,
         approved: false,
       },
@@ -104,15 +103,14 @@ export async function POST(req) {
         name: true,
         content: true,
         postId: true,
-        approved: true,
         createdAt: true,
       },
     });
 
-    return Response.json(
+    return NextResponse.json(
       {
         success: true,
-        message: "Comment submitted for admin approval",
+        message: "Comment submitted for admin approval.",
         comment,
       },
       { status: 201 }
@@ -120,8 +118,8 @@ export async function POST(req) {
   } catch (error) {
     console.error("POST comment error:", error);
 
-    return Response.json(
-      { error: "Failed to submit comment" },
+    return NextResponse.json(
+      { error: "Failed to submit comment." },
       { status: 500 }
     );
   }

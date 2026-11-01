@@ -2,7 +2,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NavigationLoader from "@/components/NavigationLoader";
-import CommentSection from "@/components/CommentSection";
 
 export default function RootLayout({ children }) {
   return (
@@ -22,8 +21,8 @@ export default function RootLayout({ children }) {
           min-h-screen
           flex-col
           md:flex-row
-          bg-[#f8fafc]
-          dark:bg-[#0f172a]
+          bg-[#020617]
+          text-gray-200
           transition-colors
           duration-500
         "
@@ -31,17 +30,12 @@ export default function RootLayout({ children }) {
         <NavigationLoader />
         <Navbar />
 
-        <div className="md:ml-20 flex min-h-screen w-full flex-col">
-          <main className="flex-1 w-full pb-20 md:pb-0">
+        <div className="md:ml-20 flex min-h-screen w-full min-w-0 flex-col bg-[#020617]">
+          <main className="flex-1 w-full min-w-0 pb-20 md:pb-0">
             {children}
           </main>
-          <CommentSection />
-
-
           <Footer />
         </div>
-
-        
       </body>
     </html>
   );
