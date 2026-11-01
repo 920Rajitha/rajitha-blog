@@ -4,10 +4,19 @@ import Navbar from "@/components/Navbar";
 import ThemeToggle from "@/components/ThemeToggle";
 import Footer from "@/components/Footer";
 import NavigationLoader from "@/components/NavigationLoader";
+import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+
+      <Script
+  id="google-adsense"
+  async
+  strategy="afterInteractive"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8218773820387181"
+  crossOrigin="anonymous"
+/>
       <body
         id="top"
         className="
