@@ -215,15 +215,7 @@ export default function Footer() {
       </a>
     </li>
 
-    <li>
-      <Link
-        href="/projects"
-        className="flex items-center gap-3 text-sm hover:text-blue-400 transition-colors"
-      >
-        <FaLaptopCode className="text-blue-400" />
-        View My Projects
-      </Link>
-    </li>
+    
   </ul>
 </div>
 
