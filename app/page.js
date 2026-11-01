@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import DOMPurify from "isomorphic-dompurify";
 
 const categories = [
   "All Posts",
@@ -11,9 +12,40 @@ const categories = [
   "Tutorials",
 ];
 
-// Get category directly from database
 function getCategory(post) {
   return post.category || "Technology";
+}
+
+// Convert HTML to plain text for search
+function getPlainText(html) {
+  if (!html) return "";
+
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// Safely display formatted post content
+function FormattedContent({ content, expanded }) {
+  const safeHTML = DOMPurify.sanitize(content || "", {
+    USE_PROFILES: { html: true },
+  });
+
+  return (
+    <div
+      className={`post-content text-gray-400 text-sm leading-relaxed ${
+        expanded ? "" : "line-clamp-4"
+      }`}
+      dangerouslySetInnerHTML={{ __html: safeHTML }}
+    />
+  );
 }
 
 export default function Home() {
@@ -21,10 +53,8 @@ export default function Home() {
   const [likedPosts, setLikedPosts] = useState([]);
   const [expandedPost, setExpandedPost] = useState(null);
 
-  // Search and category states
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All Posts");
-
   const [loading, setLoading] = useState(true);
 
   // Load Posts
@@ -99,6 +129,7 @@ export default function Home() {
       const updated = [...likedPosts, postId];
 
       setLikedPosts(updated);
+
       localStorage.setItem(
         "likedPosts",
         JSON.stringify(updated)
@@ -115,7 +146,7 @@ export default function Home() {
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
       const title = (post.title || "").toLowerCase();
-      const content = (post.content || "").toLowerCase();
+      const content = getPlainText(post.content).toLowerCase();
       const query = search.trim().toLowerCase();
 
       const matchesSearch =
@@ -135,7 +166,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#020617] text-gray-200 flex">
 
       {/* MAIN */}
-      <div className="flex-1 px-5 md:px-10 py-10">
+      <div className="flex-1 min-w-0 px-5 md:px-10 py-10">
 
         {/* HERO */}
         <div className="bg-[#0f172a] border border-white/10 p-6 md:p-8 rounded-2xl mb-10 shadow-xl backdrop-blur-md">
@@ -193,7 +224,10 @@ export default function Home() {
             {categories.map((category) => (
               <button
                 key={category}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => {
+                  setActiveCategory(category);
+                  setExpandedPost(null);
+                }}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-300 ${
                   activeCategory === category
                     ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20"
@@ -264,14 +298,16 @@ export default function Home() {
               const category = getCategory(p);
               const isExpanded = expandedPost === p.id;
 
+              const plainContent = getPlainText(p.content);
+
               return (
-                <div
+                <article
                   key={p.id}
                   className="group self-start h-fit bg-[#0f172a]/80 border border-white/10 rounded-2xl p-6 backdrop-blur-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
                 >
 
                   {/* HOVER GLOW */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-blue-500/10 to-purple-500/10" />
 
                   <div className="relative z-10">
 
@@ -287,24 +323,21 @@ export default function Home() {
                       {p.title}
                     </h2>
 
-                    {/* CONTENT PREVIEW */}
-                    <p className="text-gray-400 text-sm mb-3 leading-relaxed whitespace-pre-line">
-                      {isExpanded
-                        ? p.content
-                        : p.content?.length > 140
-                        ? `${p.content.substring(0, 140)}...`
-                        : p.content}
-                    </p>
+                    {/* FORMATTED CONTENT */}
+                    <FormattedContent
+                      content={p.content}
+                      expanded={isExpanded}
+                    />
 
                     {/* READ MORE */}
-                    {p.content?.length > 140 && (
+                    {plainContent.length > 180 && (
                       <button
                         onClick={() =>
                           setExpandedPost(
                             isExpanded ? null : p.id
                           )
                         }
-                        className="text-blue-400 text-xs mb-4 hover:underline"
+                        className="text-blue-400 text-sm mt-3 hover:underline"
                       >
                         {isExpanded
                           ? "Show Less ▲"
@@ -313,7 +346,7 @@ export default function Home() {
                     )}
 
                     {/* FOOTER */}
-                    <div className="flex justify-between items-center gap-3 mt-4">
+                    <div className="flex justify-between items-center gap-3 mt-5">
 
                       <span className="text-xs text-gray-500">
                         {new Date(p.createdAt).toLocaleDateString()}
@@ -343,7 +376,7 @@ export default function Home() {
 
                   </div>
 
-                </div>
+                </article>
               );
             })}
 
@@ -354,7 +387,7 @@ export default function Home() {
       </div>
 
       {/* RIGHT SIDEBAR */}
-      <div className="hidden xl:block w-72 p-6 border-l border-white/10 bg-white/5 backdrop-blur-md">
+      <aside className="hidden xl:block w-72 shrink-0 p-6 border-l border-white/10 bg-white/5 backdrop-blur-md">
 
         {/* RECENT POSTS */}
         <h3 className="text-xs text-gray-400 mb-4 font-semibold tracking-wide">
@@ -365,7 +398,7 @@ export default function Home() {
 
           {posts.slice(0, 5).map((p) => (
             <div key={p.id}>
-              <p className="text-gray-200 hover:text-white cursor-pointer">
+              <p className="text-gray-200 hover:text-white">
                 {p.title}
               </p>
 
@@ -384,9 +417,9 @@ export default function Home() {
 
         <div className="flex flex-wrap gap-2">
 
-          {["React", "Node", "Next.js", "Tailwind", "AI"].map((tag, i) => (
+          {["React", "Node", "Next.js", "Tailwind", "AI"].map((tag) => (
             <span
-              key={i}
+              key={tag}
               className="bg-white/10 px-3 py-1 rounded text-xs text-gray-300 hover:bg-white/20 transition"
             >
               {tag}
@@ -395,7 +428,102 @@ export default function Home() {
 
         </div>
 
-      </div>
+      </aside>
+
+      {/* RICH TEXT CONTENT STYLES */}
+      <style jsx global>{`
+        .post-content {
+          overflow-wrap: anywhere;
+        }
+
+        .post-content h1 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin: 1rem 0;
+        }
+
+        .post-content h2 {
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin: 0.9rem 0;
+        }
+
+        .post-content h3 {
+          font-size: 1.15rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin: 0.8rem 0;
+        }
+
+        .post-content p {
+          margin-bottom: 0.8rem;
+        }
+
+        .post-content ul {
+          list-style: disc;
+          padding-left: 1.5rem;
+          margin: 0.8rem 0;
+        }
+
+        .post-content ol {
+          list-style: decimal;
+          padding-left: 1.5rem;
+          margin: 0.8rem 0;
+        }
+
+        .post-content li {
+          margin-bottom: 0.35rem;
+        }
+
+        .post-content blockquote {
+          border-left: 4px solid #3b82f6;
+          padding-left: 1rem;
+          margin: 1rem 0;
+          color: #cbd5e1;
+          font-style: italic;
+        }
+
+        .post-content a {
+          color: #60a5fa;
+          text-decoration: underline;
+        }
+
+        .post-content strong {
+          color: #ffffff;
+          font-weight: 700;
+        }
+
+        .post-content u {
+          text-decoration: underline;
+        }
+
+        .post-content s {
+          text-decoration: line-through;
+        }
+
+        .post-content img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 0.75rem;
+          margin: 1rem 0;
+        }
+
+        .post-content pre {
+          background: #020617;
+          padding: 1rem;
+          border-radius: 0.75rem;
+          overflow-x: auto;
+          margin: 1rem 0;
+        }
+
+        .post-content code {
+          background: #1e293b;
+          padding: 0.15rem 0.35rem;
+          border-radius: 0.25rem;
+        }
+      `}</style>
 
     </div>
   );
