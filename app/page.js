@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -10,28 +11,9 @@ const categories = [
   "Tutorials",
 ];
 
+// Get category directly from database
 function getCategory(post) {
-  const text = `${post.title || ""} ${post.content || ""}`.toLowerCase();
-
-  if (
-    /gaming|game|gamer|fps|minecraft|wukong|playstation|xbox|steam/.test(text)
-  ) {
-    return "Gaming";
-  }
-
-  if (
-    /tutorial|how to|step by step|guide|learn|beginner|installation/.test(text)
-  ) {
-    return "Tutorials";
-  }
-
-  if (
-    /programming|javascript|python|java|c\+\+|coding|algorithm|function|react|node|next\.js|flutter/.test(text)
-  ) {
-    return "Programming";
-  }
-
-  return "Technology";
+  return post.category || "Technology";
 }
 
 export default function Home() {
@@ -45,6 +27,7 @@ export default function Home() {
 
   const [loading, setLoading] = useState(true);
 
+  // Load Posts
   const loadPosts = async () => {
     try {
       setLoading(true);
@@ -59,6 +42,7 @@ export default function Home() {
 
       const data = await res.json();
       setPosts(Array.isArray(data) ? data : []);
+
     } catch (err) {
       console.error("Fetch error:", err);
       setPosts([]);
@@ -115,9 +99,13 @@ export default function Home() {
       const updated = [...likedPosts, postId];
 
       setLikedPosts(updated);
-      localStorage.setItem("likedPosts", JSON.stringify(updated));
+      localStorage.setItem(
+        "likedPosts",
+        JSON.stringify(updated)
+      );
 
       await loadPosts();
+
     } catch (err) {
       console.error("Like error:", err);
     }
@@ -228,7 +216,8 @@ export default function Home() {
           </h2>
 
           <span className="text-sm text-gray-400">
-            {filteredPosts.length} {filteredPosts.length === 1 ? "Post" : "Posts"} Found
+            {filteredPosts.length}{" "}
+            {filteredPosts.length === 1 ? "Post" : "Posts"} Found
           </span>
 
         </div>
@@ -268,16 +257,17 @@ export default function Home() {
 
         ) : (
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 items-start">
 
             {filteredPosts.map((p) => {
               const liked = likedPosts.includes(p.id);
               const category = getCategory(p);
+              const isExpanded = expandedPost === p.id;
 
               return (
                 <div
                   key={p.id}
-                  className="group bg-[#0f172a]/80 border border-white/10 rounded-2xl p-6 backdrop-blur-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                  className="group self-start h-fit bg-[#0f172a]/80 border border-white/10 rounded-2xl p-6 backdrop-blur-lg shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
                 >
 
                   {/* HOVER GLOW */}
@@ -297,33 +287,33 @@ export default function Home() {
                       {p.title}
                     </h2>
 
-                    {/* CONTENT */}
+                    {/* CONTENT PREVIEW */}
                     <p className="text-gray-400 text-sm mb-3 leading-relaxed whitespace-pre-line">
-                      {expandedPost === p.id
+                      {isExpanded
                         ? p.content
-                        : p.content?.length > 120
-                        ? `${p.content.substring(0, 120)}...`
+                        : p.content?.length > 140
+                        ? `${p.content.substring(0, 140)}...`
                         : p.content}
                     </p>
 
                     {/* READ MORE */}
-                    {p.content?.length > 120 && (
+                    {p.content?.length > 140 && (
                       <button
                         onClick={() =>
                           setExpandedPost(
-                            expandedPost === p.id ? null : p.id
+                            isExpanded ? null : p.id
                           )
                         }
                         className="text-blue-400 text-xs mb-4 hover:underline"
                       >
-                        {expandedPost === p.id
+                        {isExpanded
                           ? "Show Less ▲"
                           : "Read More →"}
                       </button>
                     )}
 
                     {/* FOOTER */}
-                    <div className="flex justify-between items-center gap-3">
+                    <div className="flex justify-between items-center gap-3 mt-4">
 
                       <span className="text-xs text-gray-500">
                         {new Date(p.createdAt).toLocaleDateString()}
