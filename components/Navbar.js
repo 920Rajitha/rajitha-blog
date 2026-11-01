@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -23,9 +24,7 @@ import {
 
 export default function Navbar() {
   const pathname = usePathname();
-
   const [open, setOpen] = useState(false);
-  const [showResume, setShowResume] = useState(false);
 
   const navItems = [
     {
@@ -84,7 +83,11 @@ export default function Navbar() {
 
   const isActive = (path) => {
     if (path === "/") return pathname === "/";
-    return pathname === path || pathname.startsWith(`${path}/`);
+
+    return (
+      pathname === path ||
+      pathname.startsWith(`${path}/`)
+    );
   };
 
   return (
@@ -112,15 +115,17 @@ export default function Navbar() {
             flex items-center justify-center
             w-full h-16 shrink-0
             text-3xl font-bold
-            bg-gradient-to-br from-blue-400 to-purple-500
+            bg-gradient-to-br
+            from-blue-400 to-purple-500
             bg-clip-text text-transparent
-            hover:scale-110 transition-transform duration-300
+            hover:scale-110
+            transition-transform duration-300
           "
         >
           R
         </Link>
 
-        {/* NAVIGATION */}
+        {/* DESKTOP NAVIGATION */}
 
         <nav
           aria-label="Main navigation"
@@ -140,7 +145,10 @@ export default function Navbar() {
                 aria-label={item.name}
                 aria-current={active ? "page" : undefined}
                 title={item.name}
-                className="relative group flex items-center justify-center"
+                className="
+                  relative group
+                  flex items-center justify-center
+                "
               >
                 {/* ACTIVE INDICATOR */}
 
@@ -157,7 +165,7 @@ export default function Navbar() {
                   />
                 )}
 
-                {/* ICON */}
+                {/* NAVIGATION ICON */}
 
                 <span
                   className={`
@@ -203,10 +211,14 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* SOCIAL LINKS */}
+        {/* DESKTOP SOCIAL LINKS */}
 
-        <div className="w-full flex flex-col items-center gap-3 pb-5 shrink-0">
-
+        <div
+          className="
+            w-full flex flex-col items-center
+            gap-3 pb-5 shrink-0
+          "
+        >
           <div className="w-10 h-px bg-white/10 mb-2" />
 
           {socialLinks.map((social) => (
@@ -239,7 +251,6 @@ export default function Navbar() {
           <span className="text-[10px] text-gray-600 mt-2">
             © {new Date().getFullYear()}
           </span>
-
         </div>
       </aside>
 
@@ -261,162 +272,55 @@ export default function Navbar() {
           z-[100]
         "
       >
+        {navItems.map((item) => {
+          const active = isActive(item.path);
 
-        {/* ABOUT */}
+          return (
+            <Link
+              key={item.path}
+              href={item.path}
+              aria-label={item.name}
+              aria-current={active ? "page" : undefined}
+              className="
+                flex flex-col items-center
+                justify-center gap-1 min-w-0
+              "
+            >
+              <span
+                className={`
+                  w-9 h-9
+                  flex items-center justify-center
+                  rounded-xl text-lg
+                  transition-all
+                  ${
+                    active
+                      ? "text-white bg-blue-500/20"
+                      : "text-gray-400"
+                  }
+                `}
+              >
+                {item.icon}
+              </span>
 
-        <Link
-          href="/about"
-          className="flex flex-col items-center gap-1 min-w-0"
-        >
-          <span
-            className={`
-              w-9 h-9 flex items-center justify-center
-              rounded-xl text-lg transition-all
-              ${
-                isActive("/about")
-                  ? "text-white bg-blue-500/20"
-                  : "text-gray-400"
-              }
-            `}
-          >
-            <FiUser />
-          </span>
-
-          <span className={`text-[10px] ${
-            isActive("/about") ? "text-blue-400" : "text-gray-500"
-          }`}>
-            About
-          </span>
-        </Link>
-
-        {/* RESUME */}
-
-        <button
-          onClick={() => setShowResume(true)}
-          className="flex flex-col items-center gap-1 min-w-0"
-          aria-label="View Resume"
-        >
-          <span className="
-            w-9 h-9 flex items-center justify-center
-            rounded-xl text-lg text-gray-400
-            hover:text-white transition
-          ">
-            <FiFileText />
-          </span>
-
-          <span className="text-[10px] text-gray-500">
-            Resume
-          </span>
-        </button>
-
-        {/* BLOG */}
-
-        <Link
-          href="/"
-          className="flex flex-col items-center gap-1 min-w-0"
-        >
-          <span
-            className={`
-              w-9 h-9 flex items-center justify-center
-              rounded-xl text-lg transition-all
-              ${
-                isActive("/")
-                  ? "text-white bg-blue-500/20"
-                  : "text-gray-400"
-              }
-            `}
-          >
-            <FiFileText />
-          </span>
-
-          <span className={`text-[10px] ${
-            isActive("/") ? "text-blue-400" : "text-gray-500"
-          }`}>
-            Blog
-          </span>
-        </Link>
-
-        {/* CONTACT */}
-
-        <Link
-          href="/contact"
-          className="flex flex-col items-center gap-1 min-w-0"
-        >
-          <span
-            className={`
-              w-9 h-9 flex items-center justify-center
-              rounded-xl text-lg transition-all
-              ${
-                isActive("/contact")
-                  ? "text-white bg-blue-500/20"
-                  : "text-gray-400"
-              }
-            `}
-          >
-            <FiMail />
-          </span>
-
-          <span className={`text-[10px] ${
-            isActive("/contact") ? "text-blue-400" : "text-gray-500"
-          }`}>
-            Contact
-          </span>
-        </Link>
-
-        {/* PRIVACY */}
-
-        <Link
-          href="/privacy-policy"
-          className="flex flex-col items-center gap-1 min-w-0"
-        >
-          <span
-            className={`
-              w-9 h-9 flex items-center justify-center
-              rounded-xl text-lg transition-all
-              ${
-                isActive("/privacy-policy")
-                  ? "text-white bg-blue-500/20"
-                  : "text-gray-400"
-              }
-            `}
-          >
-            <FiShield />
-          </span>
-
-          <span className={`text-[10px] ${
-            isActive("/privacy-policy") ? "text-blue-400" : "text-gray-500"
-          }`}>
-            Privacy
-          </span>
-        </Link>
-
-        {/* TERMS */}
-
-        <Link
-          href="/terms"
-          className="flex flex-col items-center gap-1 min-w-0"
-        >
-          <span
-            className={`
-              w-9 h-9 flex items-center justify-center
-              rounded-xl text-lg transition-all
-              ${
-                isActive("/terms")
-                  ? "text-white bg-blue-500/20"
-                  : "text-gray-400"
-              }
-            `}
-          >
-            <FiBookOpen />
-          </span>
-
-          <span className={`text-[10px] ${
-            isActive("/terms") ? "text-blue-400" : "text-gray-500"
-          }`}>
-            Terms
-          </span>
-        </Link>
-
+              <span
+                className={`
+                  text-[10px]
+                  ${
+                    active
+                      ? "text-blue-400"
+                      : "text-gray-500"
+                  }
+                `}
+              >
+                {item.name === "Privacy Policy"
+                  ? "Privacy"
+                  : item.name === "Terms & Conditions"
+                  ? "Terms"
+                  : item.name}
+              </span>
+            </Link>
+          );
+        })}
       </nav>
 
       {/* ================= MOBILE SOCIAL BUTTON ================= */}
@@ -429,7 +333,6 @@ export default function Navbar() {
           flex flex-col items-end
         "
       >
-
         {/* SOCIAL ICONS */}
 
         <div
@@ -467,17 +370,20 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* TOGGLE BUTTON */}
+        {/* SOCIAL TOGGLE BUTTON */}
 
         <button
           onClick={() => setOpen(!open)}
-          aria-label={open ? "Close social links" : "Open social links"}
+          aria-label={
+            open ? "Close social links" : "Open social links"
+          }
           aria-expanded={open}
           className={`
             w-12 h-12
             flex items-center justify-center
             rounded-full
-            bg-gradient-to-br from-blue-500 to-indigo-600
+            bg-gradient-to-br
+            from-blue-500 to-indigo-600
             text-white text-lg
             shadow-xl shadow-blue-500/30
             transition-all duration-300
@@ -487,67 +393,7 @@ export default function Navbar() {
         >
           {open ? <FiX /> : <FaPlus />}
         </button>
-
       </div>
-
-      {/* ================= RESUME MODAL ================= */}
-
-      {showResume && (
-        <div
-          className="
-            fixed inset-0
-            bg-black/80 backdrop-blur-md
-            flex items-center justify-center
-            p-3
-            z-[9999]
-          "
-          onClick={() => setShowResume(false)}
-        >
-          <div
-            className="
-              relative
-              w-full max-w-5xl
-              h-[85vh]
-              bg-[#020617]
-              border border-white/10
-              rounded-2xl
-              overflow-hidden
-              shadow-2xl
-            "
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* CLOSE BUTTON */}
-
-            <button
-              onClick={() => setShowResume(false)}
-              aria-label="Close resume"
-              className="
-                absolute top-3 right-3
-                z-10
-                w-10 h-10
-                flex items-center justify-center
-                rounded-xl
-                bg-black/70
-                border border-white/10
-                text-white
-                hover:bg-red-500
-                transition
-              "
-            >
-              <FiX />
-            </button>
-
-            {/* RESUME PDF */}
-
-            <iframe
-              src="/Rajitha%20NEW%20CV.pdf"
-              title="Rajitha Resume"
-              className="w-full h-full"
-            />
-          </div>
-        </div>
-      )}
-
     </>
   );
 }
