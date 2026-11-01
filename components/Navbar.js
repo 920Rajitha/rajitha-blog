@@ -8,7 +8,9 @@ import { useState } from "react";
 import {
   FiUser,
   FiFileText,
-  FiShield
+  FiShield,
+  FiBookOpen,
+  FiMail,
 } from "react-icons/fi";
 
 import {
@@ -16,7 +18,7 @@ import {
   FaFacebook,
   FaWhatsapp,
   FaInstagram,
-  FaPlus
+  FaPlus,
 } from "react-icons/fa";
 
 export default function Navbar() {
@@ -27,24 +29,34 @@ export default function Navbar() {
   const navItems = [
     { name: "About", path: "/about", icon: <FiUser /> },
     { name: "Blog", path: "/", icon: <FiFileText /> },
+    { name: "Contact", path: "/contact", icon: <FiMail /> },
     {
       name: "Privacy Policy",
       path: "/privacy-policy",
-      icon: <FiShield />
+      icon: <FiShield />,
+    },
+    {
+      name: "Terms & Conditions",
+      path: "/terms",
+      icon: <FiBookOpen />,
     },
   ];
 
   return (
     <>
-      {/* DESKTOP SIDEBAR */}
-      <div className="hidden md:flex fixed top-0 left-0 h-screen w-24
+      {/* ================= DESKTOP SIDEBAR ================= */}
+
+      <div
+        className="hidden md:flex fixed top-0 left-0 h-screen w-24
         bg-[#020617]/90 backdrop-blur-xl
         border-r border-white/10
-        flex-col items-center py-8 z-50">
-
-        <div className="text-2xl font-bold mb-12 tracking-widest
+        flex-col items-center py-8 z-50"
+      >
+        <div
+          className="text-2xl font-bold mb-12 tracking-widest
           bg-gradient-to-br from-blue-400 to-purple-500
-          bg-clip-text text-transparent">
+          bg-clip-text text-transparent"
+        >
           R
         </div>
 
@@ -61,29 +73,35 @@ export default function Navbar() {
                 className="relative group"
               >
                 {isActive && (
-                  <div className="absolute left-0 top-1/2
+                  <div
+                    className="absolute left-0 top-1/2
                     -translate-y-1/2 w-1 h-6
-                    bg-blue-500 rounded-r" />
+                    bg-blue-500 rounded-r"
+                  />
                 )}
 
-                <div className={`
-                  flex items-center justify-center
-                  w-12 h-12 rounded-xl text-xl
-                  transition-all duration-300
-                  ${
-                    isActive
-                      ? "text-white bg-blue-500/10 shadow-lg"
-                      : "text-gray-500 hover:text-white hover:bg-white/5"
-                  }
-                `}>
+                <div
+                  className={`
+                    flex items-center justify-center
+                    w-12 h-12 rounded-xl text-xl
+                    transition-all duration-300
+                    ${
+                      isActive
+                        ? "text-white bg-blue-500/10 shadow-lg"
+                        : "text-gray-500 hover:text-white hover:bg-white/5"
+                    }
+                  `}
+                >
                   {item.icon}
                 </div>
 
-                <span className="absolute left-20 top-1/2
+                <span
+                  className="absolute left-20 top-1/2
                   -translate-y-1/2 bg-[#0f172a]
                   text-white text-xs px-3 py-1 rounded-lg
                   opacity-0 group-hover:opacity-100
-                  transition pointer-events-none whitespace-nowrap">
+                  transition pointer-events-none whitespace-nowrap"
+                >
                   {item.name}
                 </span>
               </Link>
@@ -91,9 +109,9 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* SOCIAL ICONS */}
-        <div className="flex flex-col items-center gap-4 mt-6 mb-10">
+        {/* SOCIAL ICONS DESKTOP */}
 
+        <div className="flex flex-col items-center gap-4 mt-6 mb-10">
           <a
             href="https://linkedin.com/in/rajitha-lakshan-4b269b351"
             target="_blank"
@@ -133,7 +151,6 @@ export default function Navbar() {
           >
             <FaInstagram className="text-gray-400 hover:text-pink-400" />
           </a>
-
         </div>
 
         <div className="mt-auto text-xs text-gray-500">
@@ -141,89 +158,169 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE NAV */}
-      <div className="md:hidden fixed bottom-6 left-1/2
-        -translate-x-1/2 w-[90%] max-w-sm
+      {/* ================= MOBILE NAV ================= */}
+
+      <div
+        className="md:hidden fixed bottom-6 left-1/2
+        -translate-x-1/2 w-[95%] max-w-md
         bg-[#020617]/90 backdrop-blur-xl
         border border-white/10 rounded-2xl
-        px-3 py-3 flex justify-between items-center
-        shadow-2xl z-50">
-
+        px-2 py-3 flex justify-between items-center
+        shadow-2xl z-50"
+      >
         {/* ABOUT */}
+
         <Link href="/about" className="flex flex-col items-center">
-          <div className={`w-10 h-10 flex items-center justify-center rounded-xl text-lg
-            ${pathname === "/about"
-              ? "text-white bg-blue-500/20 scale-110 shadow-lg"
-              : "text-gray-400"}`}>
+          <div
+            className={`w-9 h-9 flex items-center justify-center rounded-xl text-lg
+            ${
+              pathname === "/about"
+                ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+                : "text-gray-400"
+            }`}
+          >
             <FiUser />
           </div>
-          <span className={`text-[10px] mt-1 ${
-            pathname === "/about" ? "text-blue-400" : "text-gray-500"
-          }`}>About</span>
+
+          <span
+            className={`text-[10px] mt-1 ${
+              pathname === "/about" ? "text-blue-400" : "text-gray-500"
+            }`}
+          >
+            About
+          </span>
         </Link>
 
         {/* RESUME */}
+
         <button
           onClick={() => setShowResume(true)}
           className="flex flex-col items-center"
         >
-          <div className="w-10 h-10 flex items-center justify-center rounded-xl text-lg text-gray-400 hover:text-white">
+          <div className="w-9 h-9 flex items-center justify-center rounded-xl text-lg text-gray-400 hover:text-white">
             <FiFileText />
           </div>
+
           <span className="text-[10px] mt-1 text-gray-500">
             Resume
           </span>
         </button>
 
         {/* BLOG */}
+
         <Link href="/" className="flex flex-col items-center">
-          <div className={`w-10 h-10 flex items-center justify-center rounded-xl text-lg
-            ${pathname === "/"
-              ? "text-white bg-blue-500/20 scale-110 shadow-lg"
-              : "text-gray-400"}`}>
+          <div
+            className={`w-9 h-9 flex items-center justify-center rounded-xl text-lg
+            ${
+              pathname === "/"
+                ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+                : "text-gray-400"
+            }`}
+          >
             <FiFileText />
           </div>
-          <span className={`text-[10px] mt-1 ${
-            pathname === "/" ? "text-blue-400" : "text-gray-500"
-          }`}>Blog</span>
+
+          <span
+            className={`text-[10px] mt-1 ${
+              pathname === "/" ? "text-blue-400" : "text-gray-500"
+            }`}
+          >
+            Blog
+          </span>
         </Link>
 
-        {/* PRIVACY POLICY - NEW */}
+        {/* CONTACT */}
+
+        <Link href="/contact" className="flex flex-col items-center">
+          <div
+            className={`w-9 h-9 flex items-center justify-center rounded-xl text-lg
+            ${
+              pathname === "/contact"
+                ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+                : "text-gray-400"
+            }`}
+          >
+            <FiMail />
+          </div>
+
+          <span
+            className={`text-[10px] mt-1 ${
+              pathname === "/contact" ? "text-blue-400" : "text-gray-500"
+            }`}
+          >
+            Contact
+          </span>
+        </Link>
+
+        {/* PRIVACY POLICY */}
+
         <Link
           href="/privacy-policy"
           className="flex flex-col items-center"
         >
-          <div className={`w-10 h-10 flex items-center justify-center rounded-xl text-lg
-            ${pathname === "/privacy-policy"
-              ? "text-white bg-blue-500/20 scale-110 shadow-lg"
-              : "text-gray-400 hover:text-white"}`}>
+          <div
+            className={`w-9 h-9 flex items-center justify-center rounded-xl text-lg
+            ${
+              pathname === "/privacy-policy"
+                ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+                : "text-gray-400 hover:text-white"
+            }`}
+          >
             <FiShield />
           </div>
-          <span className={`text-[10px] mt-1 ${
-            pathname === "/privacy-policy"
-              ? "text-blue-400"
-              : "text-gray-500"
-          }`}>
+
+          <span
+            className={`text-[10px] mt-1 ${
+              pathname === "/privacy-policy"
+                ? "text-blue-400"
+                : "text-gray-500"
+            }`}
+          >
             Privacy
           </span>
         </Link>
 
+        {/* TERMS */}
+
+        <Link href="/terms" className="flex flex-col items-center">
+          <div
+            className={`w-9 h-9 flex items-center justify-center rounded-xl text-lg
+            ${
+              pathname === "/terms"
+                ? "text-white bg-blue-500/20 scale-110 shadow-lg"
+                : "text-gray-400 hover:text-white"
+            }`}
+          >
+            <FiBookOpen />
+          </div>
+
+          <span
+            className={`text-[10px] mt-1 ${
+              pathname === "/terms" ? "text-blue-400" : "text-gray-500"
+            }`}
+          >
+            Terms
+          </span>
+        </Link>
       </div>
 
-      {/* RESUME MODAL */}
+      {/* ================= RESUME MODAL ================= */}
+
       {showResume && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm
-          flex items-center justify-center z-[9999]">
-
-          <div className="w-[95%] h-[85%]
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm
+          flex items-center justify-center z-[9999]"
+        >
+          <div
+            className="w-[95%] h-[85%]
             bg-[#020617] border border-white/10
-            rounded-xl shadow-2xl relative overflow-hidden">
-
+            rounded-xl shadow-2xl relative overflow-hidden"
+          >
             <button
               onClick={() => setShowResume(false)}
               className="absolute top-3 right-3 text-white
-                bg-white/10 px-3 py-1 rounded-lg
-                hover:bg-red-500 transition z-10"
+              bg-white/10 px-3 py-1 rounded-lg
+              hover:bg-red-500 transition z-10"
             >
               ✕
             </button>
@@ -237,41 +334,58 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* MOBILE SOCIAL FAB */}
-      <div className="md:hidden fixed bottom-28 right-5
-        z-[999] flex flex-col items-end gap-3">
+      {/* ================= FLOATING SOCIAL FAB ================= */}
 
-        <div className={`flex flex-col gap-3 mb-2
+      <div
+        className="md:hidden fixed bottom-28 right-5
+        z-[999] flex flex-col items-end gap-3"
+      >
+        <div
+          className={`flex flex-col gap-3 mb-2
           transition-all duration-300
-          ${open
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-5 pointer-events-none"}`}>
-
-          <a href="https://linkedin.com/in/rajitha-lakshan-4b269b351"
-            target="_blank" rel="noopener noreferrer"
+          ${
+            open
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-5 pointer-events-none"
+          }`}
+        >
+          <a
+            href="https://linkedin.com/in/rajitha-lakshan-4b269b351"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-lg">
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-lg"
+          >
             <FaLinkedin />
           </a>
 
-          <a href="https://www.facebook.com/share/1DjDYyx4Dm/"
-            target="_blank" rel="noopener noreferrer"
+          <a
+            href="https://www.facebook.com/share/1DjDYyx4Dm/"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Facebook"
-            className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-lg">
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-blue-600 text-white shadow-lg"
+          >
             <FaFacebook />
           </a>
 
-          <a href="https://wa.me/94750979908"
-            target="_blank" rel="noopener noreferrer"
+          <a
+            href="https://wa.me/94750979908"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="WhatsApp"
-            className="w-11 h-11 flex items-center justify-center rounded-full bg-green-500 text-white shadow-lg">
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-green-500 text-white shadow-lg"
+          >
             <FaWhatsapp />
           </a>
 
-          <a href="https://www.instagram.com/ra_j_i_t_h_a"
-            target="_blank" rel="noopener noreferrer"
+          <a
+            href="https://www.instagram.com/ra_j_i_t_h_a"
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label="Instagram"
-            className="w-11 h-11 flex items-center justify-center rounded-full bg-pink-500 text-white shadow-lg">
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-pink-500 text-white shadow-lg"
+          >
             <FaInstagram />
           </a>
         </div>
@@ -280,10 +394,10 @@ export default function Navbar() {
           onClick={() => setOpen(!open)}
           aria-label="Toggle social links"
           className={`w-12 h-12 rounded-full
-            flex items-center justify-center
-            bg-gradient-to-br from-blue-500 to-purple-500
-            text-white shadow-xl transition
-            ${open ? "rotate-45" : ""}`}
+          flex items-center justify-center
+          bg-gradient-to-br from-blue-500 to-purple-500
+          text-white shadow-xl transition
+          ${open ? "rotate-45" : ""}`}
         >
           <FaPlus />
         </button>
