@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NavigationLoader from "@/components/NavigationLoader";
+import CommentSection from "@/components/CommentSection";
 
 export default function RootLayout({ children }) {
   return (
@@ -34,6 +35,8 @@ export default function RootLayout({ children }) {
           <main className="flex-1 w-full pb-20 md:pb-0">
             {children}
           </main>
+          <CommentSection />
+
 
           <Footer />
         </div>

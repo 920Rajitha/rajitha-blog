@@ -1,5 +1,6 @@
 
 import { prisma } from "@/lib/prisma";
+import { isAdmin } from "@/lib/admin-auth";
 
 const allowedCategories = [
   "Gaming",
@@ -17,7 +18,6 @@ export async function GET() {
     return Response.json(posts);
   } catch (error) {
     console.error("GET POSTS ERROR:", error);
-
     return Response.json(
       { error: "Failed to fetch posts" },
       { status: 500 }
@@ -27,6 +27,13 @@ export async function GET() {
 
 export async function POST(req) {
   try {
+    if (!(await isAdmin())) {
+      return Response.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { title, content, category } = await req.json();
 
     if (!title?.trim() || !content?.trim()) {
@@ -54,7 +61,6 @@ export async function POST(req) {
     return Response.json(post, { status: 201 });
   } catch (error) {
     console.error("CREATE POST ERROR:", error);
-
     return Response.json(
       { error: "Failed to create post" },
       { status: 500 }
