@@ -189,7 +189,7 @@ export default function Home() {
           </h1>
 
           <p className="text-gray-400 text-sm md:text-base max-w-2xl">
-            Your source for development insights, tutorials and best practices.
+            Explore the world of technology through insightful articles, practical tutorials, gaming, programming, AI, software development, and digital innovations. Discover useful tips, guides, reviews, and ideas to learn, create, and stay ahead in the digital world.
           </p>
 
         </div>
