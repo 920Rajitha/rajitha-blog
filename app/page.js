@@ -182,7 +182,7 @@ export default function Home() {
       <div className="relative z-10 flex-1 min-w-0 px-5 md:px-10 py-10">
 
         {/* HERO */}
-        <div className="bg-[#0f172a] border border-white/10 p-6 md:p-8 rounded-2xl mb-10 shadow-xl backdrop-blur-md">
+        <div className="bg-[#0f172a] border border-white/10 p-6 md:p-8 rounded-2xl mb-5 shadow-xl backdrop-blur-md">
 
           <h1 className="text-3xl md:text-4xl font-semibold text-white mb-3 tracking-wide">
             Welcome to Rajitha Blog 🚀
@@ -192,6 +192,18 @@ export default function Home() {
             Your source for development insights, tutorials and best practices.
           </p>
 
+        </div>
+
+        {/* GAME CHECKER BUTTON - CENTERED BETWEEN HERO AND SEARCH */}
+        <div className="flex justify-center items-center mb-5">
+          <a
+            href="/game-checker"
+            className="inline-flex w-fit items-center justify-center gap-2 rounded-xl border border-blue-400/30 bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-[#0f172a]"
+          >
+            <span aria-hidden="true">🎮</span>
+            Game Requirements Checker
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
 
         {/* SEARCH */}
